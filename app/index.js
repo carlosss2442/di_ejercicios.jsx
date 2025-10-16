@@ -5,36 +5,45 @@ import { PaperProvider, TextInput } from "react-native-paper";
 
 
 
-const saluda = (nom, cognoms) => {
+const Saluda = ({ nom, cognoms }) => {
 
   const [contrasenya, setPassword] = useState("");
-  const [contrasenyaOculta, setContrasenyaOculta] = useState(true);
+  const [isContrasenyaOculta, setContrasenyaOculta] = useState(true);
+  const [icono, setIncono] = useState('eye-off');
   
-  const modificaContrasenya = (unPassword)=> {
+  const modificaContrasenya = (unPassword) => {
     setPassword(unPassword);
-    console.log("Actualitze: "+unPassword);
+    console.log("Actualitze: " + unPassword);
   }
 
-  const modificaContrasenyaOculta = ()=> {
-    setContrasenyaOculta(!contrasenyaOculta);
-  
+  const modificaContrasenyaOculta = () => {
+    setContrasenyaOculta(!isContrasenyaOculta)
+    if (isContrasenyaOculta === true){
+      setContrasenyaOculta(false);
+      setIncono('eye')
+    } else {
+      setContrasenyaOculta(true);
+      setIncono('eye-off')
+    }
+   
   }
-  
+
   return (
-    <View style={{margin:20}}>
-      <Text style={{fontSize: 18, margin:10}}>
+    <View style={{ margin: 20, alignContent: "center", flex: 1, justifyContent: "center"}}>
+      <Text style={{ fontSize: 18, margin: 10 }}>
         Hola {nom} {cognoms}!!
       </Text>
       <Text>Primera pàgina de prova!!!.</Text>
 
       <View>
         <TextInput mode="outlined" label="Password"
-        secureTextEntry={contrasenyaOculta}
-        right={<TextInput.Icon icon="eye" />}
+          secureTextEntry={isContrasenyaOculta}
+          right={<TextInput.Icon icon={icono}  onPress={() => {modificaContrasenyaOculta()}}/>}
+          onChangeText={(text) => modificaContrasenya(text)}
         />
       </View>
       <View>
-     
+
       </View>
     </View>
   );
@@ -51,10 +60,11 @@ const Index = () => {
           justifyContent: "center",
           alignItems: "center",
           fontSize: 18,
+          alignContent: 'center'
         }}
       >
-        {saluda("Manel", "Viel")}
-        
+        <Saluda nom="Manel" cognoms="Viel" />
+
       </View>
     </PaperProvider>
   );
